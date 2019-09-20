@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Distance Calculator</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,700" rel="stylesheet" />
+  </head>
+
+  <body>
+    <button id="getText"> Get Text </button>
+      
+
+
+    <script>
+        document.getElementById('getText').addEventListener('click', calculateDistance)
+
+        function calculateDistance() {
+
+            fetch('http://www.mapquestapi.com/directions/v2/routematrix?key=NPddJU7m1J9jpbxnocG66Ev94EVTZCty', {
+                method: 'POST',
+                body: JSON.stringify({
+                        "locations": [
+                        "Denver, CO",
+                        "Westminster, CO",
+                        "Boulder, CO"
+                    ],
+                    "options": {
+                        "allToAll": true
+                    }
+                })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.distance[0][1])
+            })
+        }
+    
+    
+    </script>
+    
+  </body>
+</html>
