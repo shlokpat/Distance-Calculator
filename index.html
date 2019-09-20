@@ -10,22 +10,34 @@
   </head>
 
   <body>
+    
+    <form id="originForm">
+      <input type="text" id="origin" placeholder="Write your origin"> </form>
+    </form>
+    
+    <form id="destinationForm">
+      <input type="text" id="destination" placeholder="Write your destination">
+    </form>
+    
     <button id="getText"> Get Text </button>
-      
-
 
     <script>
         document.getElementById('getText').addEventListener('click', calculateDistance)
 
+
         function calculateDistance() {
+            let origin = document.getElementById('origin').value
+            let destination = document.getElementById('destination').value
+            //testing
+            console.log(origin)
+            console.log(destination)
 
             fetch('http://www.mapquestapi.com/directions/v2/routematrix?key=NPddJU7m1J9jpbxnocG66Ev94EVTZCty', {
                 method: 'POST',
                 body: JSON.stringify({
                         "locations": [
-                        "Denver, CO",
-                        "Westminster, CO",
-                        "Boulder, CO"
+                        origin,
+                        destination
                     ],
                     "options": {
                         "allToAll": true
