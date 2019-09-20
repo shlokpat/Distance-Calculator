@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css?family=PT+Serif&display=swap");
+
+html, body {
+	height: 100%;
+	width: 100%;
+	font-family: 'PT Serif', serif;	
+	font-weight: normal;
+	margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+}
+
+.originForm {
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    text-align: center;
+    border: red;
+}
+
+.getText {
+    background-color: red;
+}
