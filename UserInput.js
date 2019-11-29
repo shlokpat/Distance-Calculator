@@ -8,7 +8,9 @@ class UserInput extends Component {
           destination: '',
           tripDetails: [],
           clicked: false,
-          cost: 0
+          costDaily: 0,
+          costMonthly: 0,
+          costYearly: 0
         }
         this.handleChange = this.handleChange.bind(this)
         this.buttonClick = this.buttonClick.bind(this)
@@ -35,31 +37,35 @@ class UserInput extends Component {
       })
       .then((response) => response.json())
       .then((data) => {
-          console.log(data)
           this.setState({
             tripDetails: data.distance[0][1],
             clicked: true
           })
+          this.costCalc(data.distance[0][1])
       })
     }
 
-    costCalc() {
+    costCalc(distance) {
       //hardcoded fuel efficiency (put all info into object)
       var mpg = 30
       //-------------------------
       
       //Fuel prices
-      var minusCostOfFuel = 1.065543
+      //var minusCostOfFuel = 1.065543
       var baseCostOfFuel = 1.218457
-      var plusCostOfFuel = 1.371372
+      //var plusCostOfFuel = 1.371372
       //---------------------------
 
-      var distance = this.state.tripDetails
-      console.log(distance)
-      var baseCostOfTrip = (distance/mpg) * 3.777 * baseCostOfFuel
+      //cost of trip
+      var dailyCostOfTrip = (distance/mpg) * 3.777 * baseCostOfFuel
+      var roundTripCostDaily = dailyCostOfTrip * 2
+      var monthlyCostOfTrip = roundTripCostDaily * 20
+      var yearlyCostOfTrip = monthlyCostOfTrip * 12 
 
       this.setState({
-        cost: baseCostOfTrip
+        costDaily: dailyCostOfTrip,
+        costMonthly: monthlyCostOfTrip,
+        costYearly: yearlyCostOfTrip
       })
     }
 
@@ -75,7 +81,9 @@ class UserInput extends Component {
       let miles = ''
       let originText = ''
       let destinationText = ''
-      let costText = ''
+      let costTextDaily = ''
+      let costTextMonthly = ''
+      let costTextYearly = ''
 
       if (this.state.clicked === true) {
         travelText = 'You are travelling from '
@@ -84,7 +92,9 @@ class UserInput extends Component {
         miles = 'miles.'
         originText = this.state.origin
         destinationText = this.state.destination
-        costText = 'The trip will cost you $'
+        costTextDaily = 'The trip will cost you $' + this.state.costDaily.toFixed(2) + ' per day'
+        costTextMonthly = 'The trip will cost you $' + this.state.costMonthly.toFixed(2) + ' per month'
+        costTextYearly = 'The trip will cost you $' + this.state.costYearly.toFixed(2) + ' per year'
       }
 
   
@@ -97,7 +107,9 @@ class UserInput extends Component {
             <button onClick={this.buttonClick}>Calculate</button>
             <h1> {travelText} {originText} {to} {destinationText} </h1>
             <h1> {distanceText} {tripDistance} {miles} </h1>
-            <h1> {costText} {this.state.cost} </h1>
+            <h1> {costTextDaily} </h1>
+            <h1> {costTextMonthly} </h1>
+            <h1> {costTextYearly} </h1>
         </div>
 
       )
